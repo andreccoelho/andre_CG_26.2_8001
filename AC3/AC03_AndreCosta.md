@@ -1,6 +1,5 @@
 # AC03 — Transformações Geométricas 2D e 3D no Blender 4.5 LTS
 
-**Aluno:** NomeSobrenome
 **Cena:** Parque Geométrico
 
 ---
@@ -9,9 +8,9 @@
 
 | Arquivo | Conteúdo |
 |---|---|
-| `AC03_NomeSobrenome.blend` | Cena completa na coleção `AC03_transformacoes`: 3 objetos 2D, 3 objetos 3D, satélite (filho da esfera), câmera, luz e animação de 120 frames a 24 fps (5 s). |
-| `AC03_NomeSobrenome.py` | Script que cria a cena, aplica as transformações, insere os keyframes e configura câmera, luz e render. É reexecutável: limpa e recria a coleção a cada execução. |
-| `AC03_NomeSobrenome.png` | Render estático da cena no frame 60 (meio da animação), 1920x1080, EEVEE. |
+| `AC03_AndreCosta.blend` | Cena completa na coleção `AC03_transformacoes`: 3 objetos 2D, 3 objetos 3D, satélite (filho da esfera), câmera, luz e animação de 120 frames a 24 fps (5 s). |
+| `AC03_AndreCosta.py` | Script que cria a cena, aplica as transformações, insere os keyframes e configura câmera, luz e render. É reexecutável: limpa e recria a coleção a cada execução. |
+| `AC03_AndreCosta.png` | Render estático da cena no frame 60 (meio da animação), 1920x1080, EEVEE. |
 | Este documento | Texto explicativo e respostas às questões teóricas. |
 
 ### Objetos da cena
