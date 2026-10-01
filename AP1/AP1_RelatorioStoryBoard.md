@@ -1,6 +1,6 @@
-Nome# AP1 – Relatório da cena-conceito
+AP1 – Relatório da cena-conceito
 
-**Aluno:** [André Costa] | **Disciplina:** [disciplina] | **Blender 4.5 LTS**
+**Aluno:** André Costa | **Disciplina:** Computação Gráfica | **Blender 4.5 LTS**
 **Arquivo:** `AP1_AndreCosta.blend` | **Coleção principal:** `AP1_Ibmec_Conceito`
 
 ## 1. Conceito e título
