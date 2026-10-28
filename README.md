@@ -27,6 +27,7 @@ A disciplina apresenta os conceitos fundamentais da Computação Gráfica, abord
 ├── AC1/          # Entregas referentes à AC1
 ├── AC2/          # Entregas referentes à AC2
 ├── AC3/          # Entregas referentes à AC3
+├── AC4/          # Entregas referentes à AC4
 ├── AP1/          # Entregas referentes à AP1
 └── README.md     # Este arquivo
 ```
