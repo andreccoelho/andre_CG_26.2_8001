@@ -79,16 +79,14 @@ Os momentos são os mesmos do storyboard da AP1. Os marcadores na timeline têm 
 2. **Letras aparecendo antes da hora:** a face do morro é irregular, e com um recuo de 1,6 o "c" ainda aparecia no plano aberto. Aumentei o recuo para 3,0.
 3. **Gaivotas e avião saindo pelo topo do quadro:** como a câmera se aproxima, o céu visível diminui. Calculei a posição de tela (`world_to_camera_view`) quadro a quadro e baixei as trajetórias até que o avião entrasse pela esquerda e saísse pela direita dentro do quadro, e as gaivotas ficassem sempre visíveis.
 4. **Batida de asas numa malha única:** a gaivota da AP1 é uma malha só. Em vez de separar as asas, criei uma shape key que gira os vértices das asas em torno do eixo do corpo e a animei em ciclo.
-5. **Fonte Lagu Sans:** a fonte está no meu computador (`C:/Users/André Costa/Downloads/lagu-sans/`) e não estava empacotada. Veja a observação abaixo.
-
-> **Observação sobre a fonte:** o vídeo e as imagens desta pasta foram renderizados num servidor sem a Lagu Sans, então o "bmec" saiu em Liberation Sans (substituta). O `.blend` continua apontando para a Lagu Sans. **Antes de entregar:** abrir o `.blend` no meu PC, conferir a palavra, empacotar a fonte (File › External Data › Pack Resources) e renderizar de novo (Ctrl+F12) para que o MP4 final tenha a fonte original.
+5. **Fonte Lagu Sans e o "I" com serifas:** a fonte não estava empacotada (ficava só em `C:/Users/André Costa/Downloads/lagu-sans/`). Num primeiro render, feito num computador sem ela, o "bmec" saiu numa fonte substituta e o "b" deslocou, sobrepondo as serifas modeladas do "I" (que viraram um "[." estranho). Isso mostrou que o "I" e as serifas dependem das medidas exatas da Lagu Sans. Solução: a fonte agora está **empacotada no `.blend`** (o script faz `font.pack()` antes de salvar) e o vídeo foi renderizado de novo com ela.
 
 ## 7. Fontes e licenças
 
 | Recurso | Origem | Licença |
 |---|---|---|
 | Modelo e textura do Cristo/Corcovado | *Christ the Redeemer, Rio de Janeiro, Brazil* (Sketchfab) | conferir na página do modelo (já indicado na AC05) |
-| Fonte Lagu Sans | arquivo da fonte usado desde a AP1 | conferir a licença do site de onde a fonte foi baixada |
+| Fonte Lagu Sans (Alessio Laiso) | arquivo da fonte usado desde a AP1, empacotado no `.blend` | gratuita para uso pessoal; uso aqui é acadêmico, sem fins comerciais |
 | Texturas de metal e madeira | procedurais, `AC5/AC05_gerar_texturas.py` | autoral |
 | Logo, avião, gaivotas, nuvens, animação, luzes e céu | modelados e animados pelo aluno | autoral |
 | Áudio | não utilizado | — |
