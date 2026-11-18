@@ -20,7 +20,10 @@ A disciplina apresenta os conceitos fundamentais da Computação Gráfica, abord
 - **AC1** — Avaliação Continuada 1
 - **AC2** — Avaliação Continuada 2
 - **AC3** — Avaliação Continuada 3
-- **AP1** - Avaliação Parcial 1
+- **AC4** — Avaliação Continuada 4
+- **AC5** — Avaliação Continuada 5
+- **AP1** — Avaliação Parcial 1
+- **AP2** — Avaliação Parcial 2 (animação "Origens", 15 s)
 ## Estrutura do repositório
  
 ```
@@ -28,7 +31,9 @@ A disciplina apresenta os conceitos fundamentais da Computação Gráfica, abord
 ├── AC2/          # Entregas referentes à AC2
 ├── AC3/          # Entregas referentes à AC3
 ├── AC4/          # Entregas referentes à AC4
+├── AC5/          # Entregas referentes à AC5
 ├── AP1/          # Entregas referentes à AP1
+├── AP2/          # Entregas referentes à AP2
 └── README.md     # Este arquivo
 ```
  
