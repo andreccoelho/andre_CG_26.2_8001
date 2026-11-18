@@ -67,6 +67,7 @@ Os momentos são os mesmos do storyboard da AP1. Os marcadores na timeline têm 
 | `Nuvem` ×2 | `MAT_Espelho_PBR` | Nenhum. O reflexo muda com a câmera e com a deriva, o que reforça o movimento. |
 | `ChristTheRedeemer.002` | `MAT_Cristo_Pedra_PBR` (Base Color 4K) | Nenhum. |
 | Palavra Ibmec | `MAT_Ibmec_PBR` | O cinza da AC05 virou **azul Ibmec** (≈ #0B4489), com Roughness 0,32 e Coat 0,35 (verniz leve). Continua sem textura nem relevo, para não prejudicar a leitura. O brilho do coat aparece nas bordas das letras quando a câmera se move. |
+| Pingo do i (`IBMEC_Esfera`) | `MAT_Ibmec_Ponto_Amarelo` (cópia do `MAT_Ibmec_PBR`) | Mesma receita (Roughness 0,32, Coat 0,35), só a cor base muda para **amarelo** (≈ #F7B800), a cor de destaque da marca. Assim o pingo que cai e quica chama a atenção no quadro. |
 
 - Os mapas de dados continuam como **Non-Color** e os normais passam pelo nó **Normal Map** (Tangent).
 - Todas as imagens continuam **empacotadas** no `.blend`.

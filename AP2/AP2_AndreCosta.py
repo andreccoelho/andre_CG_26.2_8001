@@ -217,6 +217,13 @@ b.inputs["Roughness"].default_value = 0.32
 b.inputs["Coat Weight"].default_value = 0.35
 b.inputs["Coat Roughness"].default_value = 0.12
 
+# Pingo do i em amarelo (cor de destaque da marca): mesma receita PBR do azul, só muda a cor base.
+mat_pt = bpy.data.materials.get("MAT_Ibmec_Ponto_Amarelo") or mat_ib.copy()
+mat_pt.name = "MAT_Ibmec_Ponto_Amarelo"
+mat_pt.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.93, 0.48, 0.0, 1)  # ≈ #F7B800
+ponto.data.materials.clear()
+ponto.data.materials.append(mat_pt)
+
 # ------------------------------------------------------------------ AVIÃO: Follow Path da esquerda p/ direita
 av = D["Aviao"]
 
