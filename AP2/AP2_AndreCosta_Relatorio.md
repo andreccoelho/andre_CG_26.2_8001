@@ -53,10 +53,49 @@ Os momentos são os mesmos do storyboard da AP1. Os marcadores na timeline têm 
 - **Luz principal:** a Sun da AC04/AC05 (`Luz_Principal`) foi mantida e agora "esquenta" ao longo da peça.
 - **Luz de destaque:** `Luz_Destaque_Ibmec`, uma Area retangular de 7×3 à frente e acima do logo, mirando o centro da palavra. Ela orienta a atenção para as letras no momento em que elas surgem.
 - **World:** a iluminação ambiente da AC05 continua igual (força 0,18 para raios difusos e 0,90 para reflexos). Só os **raios de câmera** veem um céu em gradiente (*Light Path › Is Camera Ray*), que muda de azul-claro para laranja no horizonte. Assim o fundo deixa de ser chapado e os materiais recebem a mesma luz da AC05.
-- **Render:** Cycles com OpenImageDenoise, 64 amostras com amostragem adaptativa no `.blend`, *Persistent Data*, 16 *transparent bounces* (por causa das cópias invisíveis das letras), Filmic e 1920×1080 a 100%.
-- **Saída configurada no `.blend`:** FFMPEG, container MPEG-4, codec H.264, qualidade *High*, sem áudio, `//AP2_AndreCosta.mp4`, quadros 1–360 a 24 fps.
-- **Como renderizei:** no servidor sem GPU, usei CPU com 32 amostras e denoise (≈ 20 s por quadro). Gerei PNGs e montei o MP4 com o ffmpeg (`libx264`, CRF 18, `yuv420p`). Antes disso fiz testes em 25% da resolução com 12 amostras.
 - **Coleções de estudo:** as esferas e câmeras de comparação da AC04/AC05 continuam no arquivo, mas com render desligado.
+
+### 4.1 Como o render foi feito
+
+O render passou por quatro etapas: montar a cena, testar em baixa resolução, renderizar os quadros finais em PNG e juntar os quadros num MP4.
+
+**1. Montagem da cena por script.** O `AP2_AndreCosta.py` abre o `.blend` da AC05 (com a cena da AP1, as luzes da AC04 e os materiais da AC05), cria a animação e grava `AP2_AndreCosta.blend`. Os arquivos das atividades anteriores não são alterados. No fim, o script empacota a fonte Lagu Sans dentro do `.blend`.
+
+**2. Por que Cycles e não Eevee.** Cycles é um *path tracer*: para cada pixel ele traça raios a partir da câmera, que batem nos objetos, ricocheteiam e chegam às luzes. Isso calcula de forma física as sombras, os reflexos das nuvens espelhadas, o verniz (*coat*) das letras e a luz indireta da rocha. A máquina onde renderizei não tem placa de vídeo, e o Eevee (que é rasterização em tempo real) precisa de GPU para funcionar. O Cycles roda só na CPU.
+
+**3. Configurações de amostragem e ruído.**
+
+| Ajuste | Valor | Para que serve |
+|---|---|---|
+| Amostras (*samples*) | 64 no `.blend`, 32 no render final | Cada amostra é um caminho de luz por pixel. Poucas amostras deixam a imagem granulada; muitas deixam o render lento. |
+| Amostragem adaptativa | limiar 0,01 | O Cycles para de amostrar os pixels que já estão limpos (céu liso) e gasta o tempo nos difíceis (vegetação, bordas das letras). |
+| *Denoise* | OpenImageDenoise, com passes de *albedo* e *normal* | Uma rede neural remove o ruído que sobra. Os passes de cor e normal ajudam a preservar as bordas das letras e as texturas. Foi o que permitiu usar só 32 amostras. |
+| *Light paths* | total 12, difuso 4, brilho 4, transparência 16 | Limita quantas vezes um raio pode ricochetear. O valor de 16 para transparência é necessário porque cada letra tem cópias invisíveis (ver seção 3). Com poucos *bounces* transparentes, as letras de trás apareciam pretas. |
+| *Clamp* indireto | 10 | Corta pontos isolados muito brilhantes (*fireflies*) nos reflexos. |
+| *Persistent Data* | ligado | Mantém a geometria e as texturas na memória entre um quadro e o próximo, sem recarregar o morro a cada quadro. |
+| Gestão de cor | Filmic, sRGB | Comprime as altas luzes de forma suave, para o céu do fim de tarde não estourar em branco. |
+| Resolução | 1920×1080 a 100 %, 24 fps, quadros 1–360 | Full HD, 15 s de vídeo. |
+
+**4. Testes antes do render final.** Para conferir enquadramento, timing e trajetórias, renderizei quadros soltos em 25 % a 50 % da resolução e com 12 amostras (alguns segundos cada). Também calculei a posição de cada objeto na tela com `world_to_camera_view`, quadro a quadro, para ter certeza de que o avião e as gaivotas não saíam do quadro. Isso evitou renderizar de novo as 2 a 3 horas do vídeo completo por causa de um erro de enquadramento.
+
+**5. Render final em PNG e depois MP4.** O `AP2_renderizar.py` abre o `.blend` e renderiza os 360 quadros como **PNG** (`f_0001.png` … `f_0360.png`), em vez de gerar o vídeo direto. Assim, se o render parar no meio, nada se perde: com `use_overwrite = False` o Blender pula os quadros já prontos e continua de onde parou. Isso aconteceu de verdade: o computador reiniciou no quadro 235, apaguei o único quadro que tinha ficado incompleto e o render seguiu do 235 ao 360. Cada quadro levou de 20 a 31 s na CPU, ou seja, cerca de 2 a 3 horas no total.
+
+Com os 360 PNGs prontos, o **ffmpeg** monta o vídeo:
+
+```bash
+ffmpeg -framerate 24 -i f_%04d.png -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -movflags +faststart AP2_AndreCosta.mp4
+```
+
+- `libx264`: codec **H.264**, como o enunciado pede.
+- `-crf 18`: qualidade quase sem perda visível (quanto menor, melhor; 18 é considerado "visualmente sem perdas").
+- `-pix_fmt yuv420p`: formato de cor que todo player (Windows, celular, navegador) aceita.
+- `+faststart`: o vídeo começa a tocar antes de terminar de baixar.
+
+O resultado tem 1920×1080, 24 fps, 360 quadros, 15,0 s e cerca de 8,8 MB.
+
+**6. Imagem e storyboard.** O render final (`AP2_AndreCosta_render_final.png`) é o quadro 330, tirado da mesma sequência. O storyboard junta 8 quadros do render final (1, 60, 130, 180, 205, 270, 330 e 360).
+
+**No Blender com interface**, o mesmo resultado sai direto: o `.blend` já está configurado com saída FFMPEG / MPEG-4 / H.264, qualidade *High*, em `//AP2_AndreCosta.mp4`. Basta usar **Render › Render Animation** (Ctrl+F12). Com GPU, dá para trocar *Device* para GPU Compute e o render fica bem mais rápido.
 
 ## 5. Materiais e texturas da AC05
 
