@@ -386,5 +386,22 @@ r.ffmpeg.audio_codec = "NONE"
 r.filepath = "//AP2_AndreCosta.mp4"
 sc.camera = cam
 
+# Fonte Lagu Sans empacotada no .blend (o "I" e as serifas foram modelados nas medidas dela).
+# Se o caminho original (PC do autor) não existir, procura o mesmo arquivo em LAGU_SANS_DIR.
+import os
+pasta_fonte = os.environ.get("LAGU_SANS_DIR")
+for f in bpy.data.fonts:
+    if f.packed_file is not None or f.filepath == "<builtin>":
+        continue
+    if not Path(bpy.path.abspath(f.filepath)).exists() and pasta_fonte:
+        alt = Path(pasta_fonte) / Path(f.filepath.replace("\\", "/")).name
+        if alt.exists():
+            f.filepath = str(alt)
+    if Path(bpy.path.abspath(f.filepath)).exists():
+        f.pack()
+        print("fonte empacotada:", f.name)
+    else:
+        print("AVISO: fonte não encontrada, não empacotada:", f.name, f.filepath)
+
 bpy.ops.wm.save_as_mainfile(filepath=str(SAIDA), compress=True, relative_remap=True)
 print("SALVO", SAIDA)
